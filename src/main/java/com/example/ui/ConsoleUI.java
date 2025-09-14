@@ -21,8 +21,7 @@ public class ConsoleUI {
         scanner.close();
     }
 
-    // Основные методы интерфейса
-    // ===============================================
+    // Basic interface methods
 
     private void printWelcome() {
         System.out.println("=================================");
@@ -52,8 +51,7 @@ public class ConsoleUI {
         }
     }
 
-    // Методы работы с данными
-    // ===============================================
+    // Methods of working with data
 
     public void addUser() {
         String name;
@@ -64,13 +62,10 @@ public class ConsoleUI {
             }
         } while (name.trim().isEmpty());
 
-        // Запрос email
         String email = getInput("Введите email: ");
 
-        // Запрос возраста
         int age = getAgeInput();
 
-        // Создание объекта
         User user = new User();
         user.setName(name);
         user.setEmail(email);
@@ -160,8 +155,7 @@ public class ConsoleUI {
         System.out.println("Всего записей: " + users.size());
     }
 
-    // Вспомогательные методы
-    // ===============================================
+    // Auxiliary methods
 
     private int readInt(String prompt) {
         System.out.print(prompt);

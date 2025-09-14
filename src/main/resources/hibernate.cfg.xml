@@ -5,21 +5,17 @@
 
 <hibernate-configuration>
     <session-factory>
-        <!-- Настройки подключения к PostgreSQL -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">123456</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-        <!-- Дополнительные настройки -->
-        <property name="hibernate.show_sql">true</property> <!-- Отображение SQL-запросов -->
-        <property name="hibernate.format_sql">true</property> <!-- Форматирование SQL-запросов -->
-        <property name="hibernate.hbm2ddl.auto">update</property> <!-- Автоматическое обновление схемы БД -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.use_sql_comments">false</property>
 
-        <!-- Укажите классы сущностей вашего приложения -->
         <mapping class="com.example.entity.User"/>
-        <!-- Добавьте другие маппинги при необходимости -->
     </session-factory>
 </hibernate-configuration>

@@ -56,11 +56,11 @@ public class User {
         this.age = age;
     }
 
-    public LocalDateTime getCreatedAt() {  // Правильное имя геттера
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {  // Правильное имя сеттера
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }
