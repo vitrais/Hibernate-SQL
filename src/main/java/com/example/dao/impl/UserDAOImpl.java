@@ -58,4 +58,14 @@ public class UserDAOImpl implements UserDAO {
             tx.commit();
         }
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                            "SELECT count(u) FROM User u WHERE u.email = :email", Long.class)
+                    .setParameter("email", email)
+                    .getSingleResult() > 0;
+        }
+    }
 }
