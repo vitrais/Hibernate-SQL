@@ -15,7 +15,13 @@ public class UserDAOImpl implements UserDAO {
     public void save(User user) {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
-            session.persist(user);
+            session.createMutationQuery(
+                            "UPDATE User u SET u.name = :name, u.email = :email WHERE u.id = :id"
+                    )
+                    .setParameter("name", user.getName())
+                    .setParameter("email", user.getEmail())
+                    .setParameter("id", user.getId())
+                    .executeUpdate();
             tx.commit();
         }
     }

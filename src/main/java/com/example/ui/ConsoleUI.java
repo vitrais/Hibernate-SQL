@@ -116,11 +116,13 @@ public class ConsoleUI {
             return;
         }
 
-        String newName = readNonEmptyString("Текущее имя: " + user.getName() + "\nНовое имя (оставьте пустым, чтобы не менять): ");
-        String newEmail = readEmail("Текущий email: " + user.getEmail() + "\nНовый email (оставьте пустым, чтобы не менять): ");
+        String newName = readNonEmptyString("Текущее имя: " + user.getName() + "\nНовое имя");
+        String newEmail = readEmail("Текущий email: " + user.getEmail() + "\nНовый email");
+        Integer newAge = readAgeWithSkip("Текущий возраст: " + user.getAge() + "\nНовый возраст");
 
         if (!newName.isEmpty()) user.setName(newName);
         if (!newEmail.isEmpty()) user.setEmail(newEmail);
+        if (newAge != null) user.setAge(newAge);
 
         try {
             userDAO.update(user);
@@ -196,6 +198,22 @@ public class ConsoleUI {
             }
         } while (!email.matches("^[\\w.-]+@[a-zA-Z]+\\.[a-zA-Z]{2,}$"));
         return email;
+    }
+
+    private Integer readAgeWithSkip(String prompt) {
+        while (true) {
+            try {
+                String input = getInput(prompt + " (оставьте пустым, чтобы не менять): ").trim();
+                if (input.isEmpty()) {
+                    return null; // Пропуск обновления
+                }
+                int age = Integer.parseInt(input);
+                if (age < 0) throw new NumberFormatException();
+                return age;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Возраст должен быть целым числом ≥ 0!");
+            }
+        }
     }
 
     private void printUserHeader() {
