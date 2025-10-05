@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Users</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background: #f4f4f4; text-align: left; }
+        form.inline { display: inline; }
+        .error { color: #b00020; font-size: 12px; }
+        .panel { padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+    </style>
+</head>
+<body>
+<h2>Users</h2>
+
+<div class="panel">
+    <form th:action="@{/ui/users}" method="post" th:object="${form}">
+        <label>Имя:<br/>
+            <input type="text" th:field="*{name}" placeholder="Name"/>
+        </label>
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <br/><br/>
+        <label>Email:<br/>
+            <input type="email" th:field="*{email}" placeholder="email@example.com"/>
+        </label>
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <br/><br/>
+        <label>Возраст:<br/>
+            <input type="number" th:field="*{age}" min="0" max="150"/>
+        </label>
+        <div class="error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+        <br/><br/>
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th><th>Name</th><th>Email</th><th>Age</th><th>Created</th><th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}">1</td>
+        <td th:text="${u.name}">Alice</td>
+        <td th:text="${u.email}">alice@example.com</td>
+        <td th:text="${u.age}">25</td>
+        <td th:text="${u.createdAt}">2025-01-01T10:00</td>
+        <td>
+            <form class="inline" th:action="@{|/ui/users/${u.id}/delete|}" method="post">
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p style="margin-top: 16px;">
+    Также доступно REST API: <a href="/swagger-ui.html">Swagger UI</a>
+</p>
+</body>
+</html>

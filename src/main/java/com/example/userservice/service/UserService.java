@@ -8,18 +8,22 @@ import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.example.userservice.exception.NotFoundEx;
 import java.util.List;
+import com.example.userservice.event.UserEvent;
+import com.example.userservice.messaging.UserEventPublisher;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repo;
+    private final UserEventPublisher publisher;
 
     @Transactional
     public UserDto create(CreateUpdateUserDto dto) {
         User saved = repo.save(UserMapper.fromCreateDto(dto));
+        publisher.publish(UserEvent.Operation.CREATED, saved.getId(), saved.getEmail(), saved.getName());
         return UserMapper.toDto(saved);
     }
 
@@ -42,10 +46,14 @@ public class UserService {
 
     @Transactional
     public void delete(Long id) {
+        User u = findEntity(id);
         repo.deleteById(id);
+        publisher.publish(UserEvent.Operation.DELETED, u.getId(), u.getEmail(), u.getName());
     }
 
     private User findEntity(Long id) {
-        return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return repo.findById(id).orElseThrow(() -> new NotFoundEx("User not found: " + id));
     }
+
+
 }
