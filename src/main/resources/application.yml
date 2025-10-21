@@ -1,38 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 123456
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-  jackson:
-    serialization:
-      WRITE_DATES_AS_TIMESTAMPS: false
-
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    template:
-      default-topic: users.events
-
-server:
-  port: 8080
-
-logging:
-  level:
-    root: INFO
-    org.hibernate.SQL: INFO
-
-springdoc:
-  packages-to-scan: com.example.userservice.controller
-  paths-to-exclude: /ui/**
-  swagger-ui:
-    path: /swagger-ui.html
-  api-docs:
-    path: /v3/api-docs
+  application:
+    name: user-service
+  config:
+    import: optional:configserver:http://localhost:8888
